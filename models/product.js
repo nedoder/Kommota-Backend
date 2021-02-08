@@ -10,8 +10,6 @@ const Product = new mongoose.Schema({
     name: {
         type: String,
         required: [true, "You must enter name of product"],
-        // minlength: [3, "Minimal length of product name is 3 characters"],
-        // maxlength: [20, "Max length of product name is 20 characters"],
         index: { unique: true }
     },
     category: {
@@ -24,15 +22,11 @@ const Product = new mongoose.Schema({
     },
     price: {
         type: Number,
-        // min: [1, "Minimal price of product is 1 euro"],
-        // max: [10000, "Max price of product is 10000 euro"],
         required: [true, "You must enter price of product"]
     },
     quantity: {
         type: Number,
-        // required: [true, "You must enter quantity"],
-        // min: [1, "Minimal quantity of product is 1"],
-        // max: [10, "Max quantity of product is 10"],
+        required: [true, "You must enter quantity"],
         default: 1
     },
     image: {
