@@ -1,5 +1,4 @@
-<<<<<<< Updated upstream
-=======
+
 const express = require("express");
 const mongoose = require("mongoose");
 const upload = require("express-fileupload");
@@ -42,4 +41,3 @@ connect()
         console.log("Server is running on port 3001")
     }))
     .catch(e => console.error(e))
->>>>>>> Stashed changes

@@ -37,7 +37,9 @@ async function createProduct(req, res) {
         }
     } else {
         let file = req.files.image;
+
         let fileName = Date.now() + req.files.image.name;
+
         file.mv('./uploads/' + fileName, (err) => {
             if (err) {
                 console.log(err);

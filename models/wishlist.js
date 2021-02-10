@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const User = require("./user");
 const Product = require("./product");
 
@@ -14,6 +15,7 @@ const Wishlist = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: [true, "You must be logged in to add new product to wishlist"]
+
     },
 }, { timestamps: true })
 

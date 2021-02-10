@@ -1,5 +1,6 @@
+
 let path = require('path');
-const multer = require("multer");
+
 const User = require("../models/user");
 
 async function loginUser(req, res) {
@@ -24,18 +25,22 @@ async function loginUser(req, res) {
 }
 
 
+
 async function signupUser(req, res) {
     let userEmail = req.body.email;
+
+
     try {
         const emailExist = await User.find({ email: userEmail }).exec();
         if (emailExist.length > 0) {
             throw "This email already exists in database. ";
-        }
+
     } catch (error) {
         console.log(error)
         res.json({ error: error });
 
     }
+
     const file = req.files;
     if (file === false || !file || typeof file === "undefined") {
         let filePath = "";
@@ -75,6 +80,7 @@ async function signupUser(req, res) {
             }
         })
     }
+
 }
 async function findAllUsers(req, res) {
     const users = await User.find({}).lean().exec();
