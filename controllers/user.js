@@ -1,4 +1,3 @@
-
 let path = require('path');
 
 const User = require("../models/user");
@@ -35,6 +34,7 @@ async function signupUser(req, res) {
         if (emailExist.length > 0) {
             throw "This email already exists in database. ";
 
+        }
     } catch (error) {
         console.log(error)
         res.json({ error: error });
