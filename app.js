@@ -1,3 +1,4 @@
+
 const express = require("express");
 const mongoose = require("mongoose");
 const upload = require("express-fileupload");
@@ -7,6 +8,7 @@ const passwordHash = require("password-hash/lib/password-hash");
 const app = express();
 const User = require("./models/user");
 const Product = require("./models/product");
+const Wishlist = require("./models/wishlist")
 const userControllers = require("./controllers/user");
 const productControllers = require("./controllers/product");
 

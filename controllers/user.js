@@ -1,3 +1,6 @@
+
+let path = require('path');
+
 const User = require("../models/user");
 
 async function loginUser(req, res) {
@@ -21,22 +24,63 @@ async function loginUser(req, res) {
 
 }
 
+
+
 async function signupUser(req, res) {
     let userEmail = req.body.email;
-    const newUser = req.body;
+
+
     try {
         const emailExist = await User.find({ email: userEmail }).exec();
         if (emailExist.length > 0) {
             throw "This email already exists in database. ";
-        } else {
-            const user = await User.create(newUser);
-            res.status(201).json(user);
-        }
+
     } catch (error) {
         console.log(error)
         res.json({ error: error });
 
     }
+
+    const file = req.files;
+    if (file === false || !file || typeof file === "undefined") {
+        let filePath = "";
+        req.body.image = filePath;
+        let newUser = req.body;
+        try {
+            const product = await User.create(newUser);
+            res.status(201).json(product);
+        } catch (error) {
+            console.log(error);
+            res.json({ error: error });
+
+        }
+    } else {
+        let file = req.files.avatar;
+        let fileName = Date.now() + req.files.avatar.name;
+        console.log(fileName);
+        console.log(req.files);
+        file.mv('./uploads/' + fileName, (err) => {
+            if (err) {
+                console.log(err);
+            } else {
+                async function uploadAvatar() {
+                    let filePath = __dirname + "/uploads/" + fileName;
+                    req.body.avatar = filePath;
+                    let newUser = req.body;
+                    try {
+                        const user = await User.create(newUser);
+                        res.status(201).json(user);
+                    } catch (error) {
+                        console.log(error);
+                        res.json({ error: error });
+
+                    }
+                }
+                uploadAvatar();
+            }
+        })
+    }
+
 }
 async function findAllUsers(req, res) {
     const users = await User.find({}).lean().exec();
