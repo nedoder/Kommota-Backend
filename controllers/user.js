@@ -1,10 +1,8 @@
-<<<<<<< Updated upstream
 
 let path = require('path');
 
-=======
 const crypto = require("crypto");
->>>>>>> Stashed changes
+
 const User = require("../models/user");
 const Product = require("../models/product");
 
@@ -27,16 +25,7 @@ async function findAllUsers(req, res) {
 async function deleteUser(req, res) {
     let id = req.body.id;
     try {
-<<<<<<< Updated upstream
-        const emailExist = await User.find({ email: userEmail }).exec();
-        if (emailExist.length > 0) {
-            throw "This email already exists in database. ";
 
-    } catch (error) {
-        console.log(error)
-        res.json({ error: error });
-
-=======
         const user = await User.deleteOne({ _id: id }).exec();
         console.log(user);
         if (user.length === 0) { throw "User does not exist in db" } else {
@@ -45,7 +34,7 @@ async function deleteUser(req, res) {
     } catch (err) {
         console.log(err)
         res.json({ error: err })
->>>>>>> Stashed changes
+
     }
 
 };
