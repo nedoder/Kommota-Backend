@@ -1,10 +1,19 @@
-
 let path = require('path');
 
 const crypto = require("crypto");
 
 const User = require("../models/user");
 const Product = require("../models/product");
+
+const findUserById = async function(req, res) {
+    try {
+        const id = req.body.id;
+        const user = await User.find({ _id: id }).exec();
+        res.status(200).json(user);
+    } catch (err) {
+        res.json(err);
+    }
+};
 
 async function findAllUsers(req, res) {
     const users = await User.find({}).lean().exec();
@@ -25,7 +34,6 @@ async function findAllUsers(req, res) {
 async function deleteUser(req, res) {
     let id = req.body.id;
     try {
-
         const user = await User.deleteOne({ _id: id }).exec();
         console.log(user);
         if (user.length === 0) { throw "User does not exist in db" } else {
@@ -97,6 +105,7 @@ async function usersProducts(req, res) {
 };
 
 module.exports = {
+    findUserById,
     findAllUsers,
     deleteUser,
     editUser,

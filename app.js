@@ -34,6 +34,8 @@ app.get("/login", login.logIn);
 app.delete("/deleteuser", login.verifyToken, userControllers.deleteUser);
 app.patch("/edituser", login.verifyToken, userControllers.editUser);
 app.get("/userproducts", userControllers.usersProducts);
+app.get("/userbyid", userControllers.findUserById);
+
 
 //product routes - add, delete, findAll, edit
 
