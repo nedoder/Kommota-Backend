@@ -37,12 +37,16 @@ app.get("/userproducts", userControllers.usersProducts);
 app.get("/userbyid", userControllers.findUserById);
 
 
-//product routes - add, delete, findAll, edit
+//product routes - add, delete, findAll, edit, find product by category, filter products based on user choice
 
 app.post("/createproduct", productControllers.createProduct);
 app.get('/products', productControllers.findAllProducts);
 app.post("/deleteproduct", productControllers.deleteProduct);
 app.post("/editproduct", productControllers.editProduct);
+app.post("/findproductsbycategory", productControllers.findProductsByCategory);
+app.post("/filter", productControllers.filter)
+
+
 
 connect()
     .then(() => app.listen(3001, () => {
