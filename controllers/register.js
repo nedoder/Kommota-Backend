@@ -3,13 +3,25 @@ const User = require("../models/user");
 const nodemailer = require("nodemailer");
 require('dotenv').config();
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+const fs = require("fs");
+const readline = require('readline');
+const { google } = require('googleapis');
+const path = require("path");
+
+const SCOPES = ['https://www.googleapis.com/auth/drive'];
+const key = require('../auth.json')
+const auth = new google.auth.JWT(key.client_email, null, key.private_key, SCOPES)
+
+
+const drive = google.drive({ version: "v3", auth });
+
 
 
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: 'finalprojectreactnode@gmail.com',
-        pass: process.env.PASSWORD
+        pass: 'finalProject123'
     }
 });
 
@@ -67,24 +79,52 @@ async function signupUser(req, res) {
                 console.log(err);
             } else {
                 async function uploadAvatar() {
+                    let uploadPath = path.join(__dirname, "../", "/uploads/", fileName);
+                    console.log(uploadPath);
+                    var fileMetadata = {
+                        'name': fileName,
+                        'parents': ['1gHN9y7QD0r7U9wsMu5DsmEl43HCvJm_5']
+                    };
+                    var media = {
+                        mimeType: 'image/jpeg',
+                        body: fs.createReadStream(uploadPath)
+                    };
                     let filePath = __dirname + "/uploads/" + fileName;
-                    req.body.avatar = filePath;
-                    let newUser = req.body;
-                    try {
-                        const user = await User.create(newUser);
-                        sendMail();
-                        res.status(201).json(user);
+
+                    drive.files.create({
+
+                        resource: fileMetadata,
+                        media: media,
+                        fields: '*'
+                    }, async function(err, response) {
+                        if (err) {
+                            // Handle error
+                            console.error(err);
+                        } else {
+                            console.log('File Id: ', response.data.webViewLink);
+                            req.body.avatar = response.data.webViewLink;
+                            let newUser = req.body;
+                            try {
+                                const user = await User.create(newUser);
+                                res.status(201).json(user);
 
 
-                    } catch (error) {
-                        console.log(error);
-                        res.json({ error: error });
+                            } catch (error) {
+                                console.log(error);
+                                res.json({ error: error });
 
-                    }
+                            }
+                        }
+                    });
+
+
+
                 }
 
 
                 uploadAvatar();
+
+
 
                 var mailOptions = {
                     from: 'finalprojectreactnode@gmail.com',

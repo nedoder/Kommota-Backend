@@ -23,7 +23,7 @@ const User = new mongoose.Schema({
     },
     role: {
         type: Boolean,
-        required: [true, "You must enter role"]
+        default: false
     },
     avatar: {
         type: String,
