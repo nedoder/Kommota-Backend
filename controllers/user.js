@@ -6,6 +6,16 @@ const crypto = require("crypto");
 
 const User = require("../models/user");
 
+const fs = require("fs");
+const readline = require('readline');
+const { google } = require('googleapis');
+const SCOPES = ['https://www.googleapis.com/auth/drive'];
+const key = require('../auth.json')
+const auth = new google.auth.JWT(key.client_email, null, key.private_key, SCOPES)
+
+
+const drive = google.drive({ version: "v3", auth });
+
 const findUserById = async function(req, res) {
     try {
         const id = req.body.id;
@@ -55,7 +65,7 @@ async function editUser(req, res) {
     let id = req.body.id;
     const file = req.files;
     if (file === false || !file || typeof file === "undefined") {
-        let filePath = __dirname + "/uploads/" + "dafaultavatar.png";
+        let filePath = "https://drive.google.com/file/d/1_-9zTrlAg_0CQoVn4tuU3ii9g75LibfG/view?usp=drivesdk";
         req.body.avatar = filePath;
         req.body["password"] = crypto.createHash('sha256').update(req.body["password"]).digest('hex');
         let newUser = req.body;
@@ -69,22 +79,49 @@ async function editUser(req, res) {
         }
     } else {
         let file = req.files.avatar;
+        req.body["password"] = crypto.createHash('sha256').update(req.body["password"]).digest('hex');
         let fileName = Date.now() + req.files.avatar.name;
         file.mv('./uploads/' + fileName, (err) => {
             if (err) {
                 console.log(err);
             } else {
                 async function uploadAvatar() {
-                    let filePath = __dirname + "/uploads/" + fileName;
+                    let filePath = path.join(__dirname, "../", "/uploads/", fileName);
                     req.body.avatar = filePath;
-                    let newUser = req.body;
-                    try {
-                        const user = await Product.findOneAndUpdate({ _id: id }, newProduct, { new: true, upsert: true, setDefaultsOnInsert: true });
-                        res.status(201).json(user);
-                    } catch (error) {
-                        console.log(error);
-                        res.json({ error: error });
-                    }
+                    var fileMetadata = {
+                        'name': fileName,
+                        'parents': ['1gHN9y7QD0r7U9wsMu5DsmEl43HCvJm_5']
+                    };
+                    var media = {
+                        mimeType: 'image/jpeg',
+                        body: fs.createReadStream(filePath)
+                    };
+                    drive.files.create({
+
+                        resource: fileMetadata,
+                        media: media,
+                        fields: '*'
+                    }, async function(err, response) {
+                        if (err) {
+                            // Handle error
+                            console.error(err);
+                        } else {
+                            console.log('File Id: ', response.data.webViewLink);
+                            req.body.avatar = response.data.webViewLink;
+                            let newUser = req.body;
+                            try {
+                                const user = await User.findOneAndUpdate({ _id: id }, newUser, { new: true, upsert: true, setDefaultsOnInsert: true });
+                                res.status(201).json(user);
+
+
+                            } catch (error) {
+                                console.log(error);
+                                res.json({ error: error });
+
+                            }
+                        }
+                    });
+
                 }
                 uploadAvatar();
             }

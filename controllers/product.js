@@ -1,12 +1,25 @@
 const Product = require("../models/product");
+const fs = require("fs");
+const path = require("path");
+const readline = require('readline');
+const { google } = require('googleapis');
+
+const SCOPES = ['https://www.googleapis.com/auth/drive'];
+const key = require('../auth.json')
+const auth = new google.auth.JWT(key.client_email, null, key.private_key, SCOPES)
+
+
+const drive = google.drive({ version: "v3", auth });
+
 
 async function createProduct(req, res) {
     let price = req.body.price;
     let name = req.body.name;
+    let image = req.files.image;
     console.log(req.body)
     try {
-        if (!price || !name) {
-            throw "You must enter name and price"
+        if (!price || !name || !image) {
+            throw "You must enter name, price and image"
         }
     } catch (error) {
         res.json({ error: error });
@@ -20,47 +33,58 @@ async function createProduct(req, res) {
     } catch (error) {
         res.json({ error: error });
     }
-    const file = req.files;
-    if (file === false || !file || typeof file === "undefined") {
-        let filePath = __dirname + "/uploads/" + "noimage.png";
-        console.log(filePath)
-        req.body.image = filePath;
-        let newProduct = req.body;
-        console.log(newProduct)
-        try {
-            const product = await Product.create(newProduct);
-            res.status(201).json(product);
-        } catch (error) {
-            console.log(error);
-            res.json({ error: error });
 
-        }
-    } else {
-        let file = req.files.image;
 
-        let fileName = Date.now() + req.files.image.name;
+    let file = req.files.image;
 
-        file.mv('./uploads/' + fileName, (err) => {
-            if (err) {
-                console.log(err);
-            } else {
-                async function upis() {
-                    let filePath = __dirname + "/uploads/" + fileName;
-                    req.body.image = filePath;
-                    let newProduct = req.body;
-                    try {
-                        const product = await Product.create(newProduct);
-                        res.status(201).json(product);
-                    } catch (error) {
-                        console.log(error);
-                        res.json({ error: error });
+    let fileName = Date.now() + req.files.image.name;
 
+    file.mv('./uploads/' + fileName, (err) => {
+        if (err) {
+            console.log(err);
+        } else {
+            async function uploadImage() {
+                let filePath = path.join(__dirname, '../', "/uploads/", fileName);
+                var fileMetadata = {
+                    'name': fileName,
+                    'parents': ['1gHN9y7QD0r7U9wsMu5DsmEl43HCvJm_5']
+                };
+                var media = {
+                    mimeType: 'image/jpeg',
+                    body: fs.createReadStream(filePath)
+                };
+                let uploadPath = __dirname + "/uploads/" + fileName;
+
+                drive.files.create({
+
+                    resource: fileMetadata,
+                    media: media,
+                    fields: '*'
+                }, async function(err, response) {
+                    if (err) {
+                        // Handle error
+                        console.error(err);
+                    } else {
+                        console.log('File Id: ', response.data.webViewLink);
+                        req.body.image = response.data.webViewLink;
+                        let newProduct = req.body;
+                        try {
+                            const user = await Product.create(newProduct);
+                            res.status(201).json(user);
+
+
+                        } catch (error) {
+                            console.log(error);
+                            res.json({ error: error });
+
+                        }
                     }
-                }
-                upis();
+                });
             }
-        })
-    }
+            uploadImage();
+        }
+    })
+
 
 }
 
@@ -91,43 +115,54 @@ async function deleteProduct(req, res) {
 
 async function editProduct(req, res) {
     let id = req.body.id;
-    console.log(id);
-    const file = req.files;
-    if (file === false || !file || typeof file === "undefined") {
-        let filePath = __dirname + "/uploads/" + "noimage.png";
-        req.body.image = filePath;
-        let newProduct = req.body;
-        try {
-            const product = await Product.findOneAndUpdate({ _id: id }, newProduct, { new: true, upsert: true, setDefaultsOnInsert: true });
-            res.status(201).json(product);
-        } catch (error) {
-            console.log(error);
-            res.json({ error: error });
+    let file = req.files.image;
+    let fileName = Date.now() + req.files.image.name;
+    file.mv('./uploads/' + fileName, (err) => {
+        if (err) {
+            console.log(err);
+        } else {
+            async function uploadPhoto() {
+                let filePath = path.join(__dirname, '../', "/uploads/", fileName);
+                req.body.image = filePath;
+                let newProduct = req.body;
+                var fileMetadata = {
+                    'name': fileName,
+                    'parents': ['1gHN9y7QD0r7U9wsMu5DsmEl43HCvJm_5']
+                };
+                var media = {
+                    mimeType: 'image/jpeg',
+                    body: fs.createReadStream(filePath)
+                };
+                drive.files.create({
 
-        }
-    } else {
-        let file = req.files.image;
-        let fileName = req.files.image.name;
-        file.mv('./uploads/' + fileName, (err) => {
-            if (err) {
-                console.log(err);
-            } else {
-                async function upis() {
-                    let filePath = __dirname + "/uploads/" + fileName;
-                    req.body.image = filePath;
-                    let newProduct = req.body;
-                    try {
-                        const product = await Product.findOneAndUpdate({ _id: id }, newProduct, { new: true, upsert: true, setDefaultsOnInsert: true });
-                        res.status(201).json(product);
-                    } catch (error) {
-                        console.log(error);
-                        res.json({ error: error });
+                    resource: fileMetadata,
+                    media: media,
+                    fields: '*'
+                }, async function(err, response) {
+                    if (err) {
+                        // Handle error
+                        console.error(err);
+                    } else {
+                        console.log('File Id: ', response.data.webViewLink);
+                        req.body.image = response.data.webViewLink;
+                        let newProduct = req.body;
+                        try {
+                            const product = await Product.findOneAndUpdate({ _id: id }, newProduct, { new: true, upsert: true, setDefaultsOnInsert: true });
+                            res.status(201).json(product);
+
+
+                        } catch (error) {
+                            console.log(error);
+                            res.json({ error: error });
+
+                        }
                     }
-                }
-                upis();
+                });
             }
-        })
-    }
+            uploadPhoto();
+        }
+    })
+
 }
 
 async function findProductsByCategory(req, res) {

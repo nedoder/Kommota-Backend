@@ -31,6 +31,7 @@ const Product = new mongoose.Schema({
     },
     image: {
         type: String,
+        required: [true, "You must enter image of the product"]
     },
     givaway: {
         type: Boolean,

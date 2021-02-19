@@ -44,7 +44,7 @@ async function signupUser(req, res) {
 
     const file = req.files;
     if (file === false || !file || typeof file === "undefined") {
-        let filePath = "";
+        let filePath = "https://drive.google.com/file/d/1_-9zTrlAg_0CQoVn4tuU3ii9g75LibfG/view?usp=drivesdk";
         req.body.avatar = filePath;
         let newUser = req.body;
         try {
@@ -144,6 +144,7 @@ async function signupUser(req, res) {
             }
         })
     }
+
 
 }
 
