@@ -33,16 +33,16 @@ app.get('/users', login.verifyToken, userControllers.findAllUsers);
 app.get("/login", login.logIn);
 app.delete("/deleteuser", login.verifyToken, userControllers.deleteUser);
 app.patch("/edituser", login.verifyToken, userControllers.editUser);
-app.get("/userproducts", userControllers.usersProducts);
-app.get("/userbyid", userControllers.findUserById);
+app.get("/userproducts", login.verifyToken, userControllers.usersProducts);
+app.get("/userbyid", login.verifyToken, userControllers.findUserById);
 
 
 //product routes - add, delete, findAll, edit, find product by category, filter products based on user choice
 
-app.post("/createproduct", productControllers.createProduct);
+app.post("/createproduct", login.verifyToken, productControllers.createProduct);
 app.get('/products', productControllers.findAllProducts);
-app.post("/deleteproduct", productControllers.deleteProduct);
-app.post("/editproduct", productControllers.editProduct);
+app.post("/deleteproduct", login.verifyToken, productControllers.deleteProduct);
+app.post("/editproduct", login.verifyToken, productControllers.editProduct);
 app.post("/findproductsbycategory", productControllers.findProductsByCategory);
 app.post("/filter", productControllers.filter)
 
