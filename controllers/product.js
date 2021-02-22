@@ -262,11 +262,27 @@ async function filter(req, res) {
     }
 
 }
+
+const findProductById = async function(req, res) {
+    try {
+        const productId = req.params.id;
+        const result = await Product.findById(productId).exec();
+        if (result) {
+            res.status(200).json(result);
+        } else {
+            res.status(404).json({ "error": "No product with that ID!" });
+        }
+    } catch (err) {
+        res.json(err);
+    }
+
+};
 module.exports = {
     createProduct,
     findAllProducts,
     deleteProduct,
     editProduct,
     findProductsByCategory,
-    filter
+    filter,
+    findProductById
 }
