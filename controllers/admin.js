@@ -9,7 +9,7 @@ function isAdmin(req, res, next) {
     if (role === 1) {
         next();
     } else {
-        res.json({ error: "You don't have permission to see this page" });
+        res.json({ error: "Nemate pristup ovoj stranici." });
     }
 }
 

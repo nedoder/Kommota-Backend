@@ -5,16 +5,16 @@ const Product = new mongoose.Schema({
     userid: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-        required: [true, "You must be logged in to add new product"]
+        required: [true, "Morate biti ulogovani da dodate novi proizvod"]
     },
     name: {
         type: String,
-        required: [true, "You must enter name of product"],
+        required: [true, "Morate unijeti ime proizvoda"],
         index: { unique: true }
     },
     category: {
         type: String,
-        required: [true, "You must enter category of product"]
+        required: [true, "Morate unijeti kategoriju proizvoda"]
     },
     description: {
         type: String,
@@ -22,16 +22,16 @@ const Product = new mongoose.Schema({
     },
     price: {
         type: Number,
-        required: [true, "You must enter price of product"]
+        required: [true, "Morate unijeti cijenu proizvoda"]
     },
     quantity: {
         type: Number,
-        required: [true, "You must enter quantity"],
+        required: [true, "Morate unijeti količinu"],
         default: 1
     },
     image: {
         type: String,
-        required: [true, "You must enter image of the product"]
+        required: [true, "Morate unijeti sliku proizvoda"]
     },
     givaway: {
         type: Boolean,

@@ -33,7 +33,7 @@ async function signupUser(req, res) {
     try {
         const emailExist = await User.find({ email: userEmail }).exec();
         if (emailExist.length > 0) {
-            throw "This email already exists in database. ";
+            throw "Korisnik sa ovom email adresom već postoji u bazi.";
 
         }
     } catch (error) {
@@ -61,14 +61,14 @@ async function signupUser(req, res) {
         var mailOptions = {
             from: 'finalprojectreactnode@gmail.com',
             to: req.body.email,
-            subject: 'Successfully registered',
-            text: 'You registered successfully to our webshop. Please login and enjoy. Kind regards from our team'
+            subject: 'Uspješna registracija',
+            text: 'Uspješno ste se registrovali na naš webshop. Ulogujte se i započnite kupovinu. Srdačan pozdrav od našeg tima.'
         };
         transporter.sendMail(mailOptions, function(error, info) {
             if (error) {
                 console.log(error);
             } else {
-                console.log('Email sent: ' + info.response);
+                console.log('Email poslat: ' + info.response);
             }
         });
     } else {
@@ -129,14 +129,14 @@ async function signupUser(req, res) {
                 var mailOptions = {
                     from: 'finalprojectreactnode@gmail.com',
                     to: req.body.email,
-                    subject: 'Successfully registered',
-                    text: 'You registered successfully to our webshop. Please login and enjoy. Kind regards from our team'
+                    subject: 'Uspješna registracija',
+                    text: 'Uspješno ste se registrovali na naš webshop. Ulogujte se i započnite kupovinu. Srdačan pozdrav od našeg tima.'
                 };
                 transporter.sendMail(mailOptions, function(error, info) {
                     if (error) {
                         console.log(error);
                     } else {
-                        console.log('Email sent: ' + info.response);
+                        console.log('Email poslat: ' + info.response);
                     }
                 });
 

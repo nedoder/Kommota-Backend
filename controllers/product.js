@@ -19,7 +19,7 @@ async function createProduct(req, res) {
     console.log(req.body)
     try {
         if (!price || !name || !image) {
-            throw "You must enter name, price and image"
+            throw "Morate unijeti ime, cijenu i sliku."
         }
     } catch (error) {
         res.json({ error: error });
@@ -28,7 +28,7 @@ async function createProduct(req, res) {
         let productName = req.body.name;
         const productExist = await Product.find({ name: productName }).exec();
         if (productExist.length === 1) {
-            throw "This product name already exists in database. ";
+            throw "Ovaj proizvod već postoji u bazi.";
         }
     } catch (error) {
         res.json({ error: error });
@@ -92,7 +92,7 @@ async function findAllProducts(req, res) {
     const products = await Product.find({}).lean().exec();
     try {
         if (products.length === 0) {
-            throw "There are no products in database. ";
+            throw "Nema proizvoda u bazi.";
         } else {
             res.status(201).json(products);
         }
@@ -104,7 +104,7 @@ async function deleteProduct(req, res) {
     let id = req.body.id;
     try {
         const product = await Product.deleteOne({ _id: id }).exec();
-        if (product.n === 0) { throw "Product does not exist in db" } else {
+        if (product.n === 0) { throw "Proizvod ne postoji u bazi." } else {
             res.status(201).json(id);
         }
     } catch (err) {
@@ -169,7 +169,7 @@ async function findProductsByCategory(req, res) {
     const products = await Product.find({ category: req.body.category }).lean().exec();
     try {
         if (products.length === 0) {
-            throw "There are no products in database. ";
+            throw "Nema proizvoda u bazi. ";
         } else {
             res.status(201).json(products);
         }

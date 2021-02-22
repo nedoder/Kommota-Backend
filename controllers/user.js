@@ -32,7 +32,7 @@ async function findAllUsers(req, res) {
     users.map(user => user.password = undefined);
     try {
         if (users.length === 0) {
-            throw "There are no users in database. ";
+            throw "Nije pronađen nijedan korisnik u bazi.";
         } else {
             res.status(201).json(users);
         }
@@ -50,7 +50,7 @@ async function deleteUser(req, res) {
         const deletedProducts = await Product.deleteMany({ userid: id }).exec();
         console.log(user);
 
-        if (user.n === 0) { throw "User does not exist in db" } else {
+        if (user.n === 0) { throw "Korisnik nije pronađen." } else {
             res.status(201).json({ id: id, deletedProducts: deletedProducts });
         }
 
@@ -134,7 +134,7 @@ async function usersProducts(req, res) {
     try {
         const products = await Product.find({ userid: id }).exec();
         if (products.length === 0) {
-            throw "There are no products for this user in database. ";
+            throw "Za ovog korisnika nisu pronađeni proizvodi.";
         } else {
             res.status(201).json(products);
         }

@@ -10,21 +10,21 @@ async function logIn(req, res) {
     try {
         const user = await User.find({ email: userMail }).exec();
         if (user.length === 0) {
-            throw "User does not exist in database. ";
+            throw "Korisnik ne postoji u bazi. ";
         } else if (user.length === 1) {
             if (password === user[0].password) {
                 jwt.sign({ user }, "lalal", { expiresIn: "1h" }, (err, token) => {
                     res.json({ token, user });
                 });
             } else {
-                throw "Invalid password. ";
+                throw "Pogrešan password. ";
             }
 
         } else {
-            res.status(401).json("Wrong username or password");
+            res.status(401).json("Pogrešan username ili password");
         }
     } catch (err) {
-        res.status(401).json("Authentication failed");
+        res.status(401).json("Autentifikacija nije uspjela.");
     }
 }
 
@@ -37,7 +37,7 @@ function verifyToken(req, res, next) {
         req.token = bearerToken;
         next();
     } else {
-        res.sendStatus(403).json({ "error": "Authentication failed!" });;
+        res.sendStatus(403).json({ "error": "Autentifikacija nije uspjela." });;
     }
 
 }

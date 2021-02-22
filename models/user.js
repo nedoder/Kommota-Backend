@@ -4,22 +4,22 @@ const validator = require("validator");
 const User = new mongoose.Schema({
     name: {
         type: String,
-        required: [true, "You must enter Your name"]
+        required: [true, "Morate unijeti ime"]
     },
     lastName: {
         type: String,
-        required: [true, "You must enter Your last name"]
+        required: [true, "Morate unijeti prezime"]
     },
 
     password: {
         type: String,
-        required: [true, "You must enter password"],
+        required: [true, "Morate unijeti password"],
     },
     email: {
         type: String,
-        required: [true, "You must enter email"],
+        required: [true, "Morate unijeti email"],
         index: { unique: true },
-        validate: [validator.isEmail, "You must enter valid email"]
+        validate: [validator.isEmail, "Morate unijeti validan email"]
     },
     role: {
         type: Boolean,
