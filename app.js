@@ -52,10 +52,10 @@ app.post("/findproductsbycategory", productControllers.findProductsByCategory);
 app.post("/filter", productControllers.filter);
 
 //routes for shopping cart - add item to cart, get cart, delete cart
-app.post("/cart", shopping.addItemToCart);
-app.get("/cart", shopping.getCart);
-app.delete("/cart", shopping.emptyCart);
-app.get("/checkout", checkout.checkout, shopping.emptyCart);
+app.post("/cart", login.verifyToken, shopping.addItemToCart);
+app.get("/cart", login.verifyToken, shopping.getCart);
+app.delete("/cart", login.verifyToken, shopping.emptyCart);
+app.get("/checkout", login.verifyToken, checkout.checkout, shopping.emptyCart);
 
 
 connect()
