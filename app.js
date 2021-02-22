@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static("uploads"));
 
 const connect = () => {
-    return mongoose.connect("mongodb://localhost:27017/project");
+    return mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/project");
 };
 
 //user routes - signup, login, findAll and delete
