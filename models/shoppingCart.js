@@ -11,10 +11,10 @@ let ShoppingItem = new mongoose.Schema({
         quantity: 1,
         index: true
     },
-    user: {
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-        required: [true, "Morate biti ulogovani da biste dodali proizvod u korpu."]
+        required: [false, "Morate biti ulogovani da biste dodali proizvod u korpu."]
 
     },
     quantity: {
@@ -30,7 +30,7 @@ let ShoppingItem = new mongoose.Schema({
         type: Number,
         required: true
     }
-}, { timestamps: true })
+}, { timestamps: true });
 
 const ShoppingCart = new mongoose.Schema({
     items: [ShoppingItem],

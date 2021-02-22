@@ -261,7 +261,7 @@ async function filter(req, res) {
         res.json({ error: err });
     }
 
-}
+};
 
 const findProductById = async function(req, res) {
     try {
@@ -270,13 +270,14 @@ const findProductById = async function(req, res) {
         if (result) {
             res.status(200).json(result);
         } else {
-            res.status(404).json({ "error": "No product with that ID!" });
+            res.status(404).json({ "Greška": "Nema proizvdoa sa tim ID-jem u bazi." });
         }
     } catch (err) {
-        res.json(err);
+        res.json({ error: err });
     }
 
 };
+
 module.exports = {
     createProduct,
     findAllProducts,
