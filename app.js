@@ -15,6 +15,7 @@ const userControllers = require("./controllers/user");
 const productControllers = require("./controllers/product");
 const shopping = require("./controllers/shoppingCart");
 const admin = require("./controllers/admin");
+const checkout = require("./controllers/checkout");
 require('dotenv').config();
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
@@ -54,7 +55,7 @@ app.post("/filter", productControllers.filter);
 app.post("/cart", shopping.addItemToCart);
 app.get("/cart", shopping.getCart);
 app.delete("/cart", shopping.emptyCart);
-
+app.get("/checkout", checkout.checkout, shopping.emptyCart);
 
 
 connect()
