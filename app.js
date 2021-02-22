@@ -13,6 +13,7 @@ const register = require("./controllers/register");
 const login = require("./controllers/login");
 const userControllers = require("./controllers/user");
 const productControllers = require("./controllers/product");
+const admin = require("./controllers/admin");
 require('dotenv').config();
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
@@ -29,12 +30,13 @@ const connect = () => {
 //user routes - signup, login, findAll and delete
 
 app.post("/signup", register.signupUser);
-app.get('/users', login.verifyToken, userControllers.findAllUsers);
+app.get('/users', login.verifyToken, admin.isAdmin, userControllers.findAllUsers);
 app.get("/login", login.logIn);
 app.delete("/deleteuser", login.verifyToken, userControllers.deleteUser);
 app.patch("/edituser", login.verifyToken, userControllers.editUser);
 app.get("/userproducts", login.verifyToken, userControllers.usersProducts);
 app.get("/userbyid", login.verifyToken, userControllers.findUserById);
+app.get("/admin", login.verifyToken, admin.isAdmin, admin.getData);
 
 
 //product routes - add, delete, findAll, edit, find product by category, filter products based on user choice
@@ -49,7 +51,7 @@ app.post("/filter", productControllers.filter)
 
 
 connect()
-    .then(() => app.listen(3001, () => {
+    .then(() => app.listen(process.env.PORT || 3001, () => {
         console.log("Server is running on port 3001")
     }))
     .catch(e => console.error(e))

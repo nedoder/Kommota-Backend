@@ -14,7 +14,7 @@ async function logIn(req, res) {
         } else if (user.length === 1) {
             if (password === user[0].password) {
                 jwt.sign({ user }, "lalal", { expiresIn: "1h" }, (err, token) => {
-                    res.json({ token });
+                    res.json({ token, user });
                 });
             } else {
                 throw "Invalid password. ";
