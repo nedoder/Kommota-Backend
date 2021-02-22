@@ -13,6 +13,7 @@ const register = require("./controllers/register");
 const login = require("./controllers/login");
 const userControllers = require("./controllers/user");
 const productControllers = require("./controllers/product");
+const shopping = require("./controllers/shoppingCart");
 const admin = require("./controllers/admin");
 require('dotenv').config();
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
@@ -47,7 +48,12 @@ app.get('/product/:id', login.verifyToken, productControllers.findAllProducts);
 app.post("/deleteproduct", login.verifyToken, productControllers.deleteProduct);
 app.post("/editproduct", login.verifyToken, productControllers.editProduct);
 app.post("/findproductsbycategory", productControllers.findProductsByCategory);
-app.post("/filter", productControllers.filter)
+app.post("/filter", productControllers.filter);
+
+//routes for shopping cart - add item to cart, get cart, delete cart
+app.post("/cart", shopping.addItemToCart);
+app.get("/cart", shopping.getCart);
+app.delete("/cart", shopping.emptyCart);
 
 
 

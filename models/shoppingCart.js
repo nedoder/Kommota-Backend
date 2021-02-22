@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 const User = require("./user");
 const Product = require("./product");
 
-const Shopping = new mongoose.Schema({
-    product: {
+let ShoppingItem = new mongoose.Schema({
+    productId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Product",
         required: [true, "Morate odabrati proizvod"],
@@ -21,8 +21,25 @@ const Shopping = new mongoose.Schema({
         type: Number,
         required: [true, "Morate unijeti količinu"],
         min: [1, "Količina ne može biti manja od 1"]
+    },
+    price: {
+        type: Number,
+        required: true
+    },
+    total: {
+        type: Number,
+        required: true
     }
 }, { timestamps: true })
 
+const ShoppingCart = new mongoose.Schema({
+    items: [ShoppingItem],
+    subTotal: {
+        default: 0,
+        type: Number
+    }
+}, {
+    timestamps: true
+})
 
-module.exports = mongoose.model("Shopping", Shopping);
+module.exports = mongoose.model("ShoppingCart", ShoppingCart);
