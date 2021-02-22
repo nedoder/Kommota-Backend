@@ -6,15 +6,11 @@ const Product = require("./product");
 let ShoppingItem = new mongoose.Schema({
     productId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Product",
-        required: [true, "Morate odabrati proizvod"],
-        quantity: 1,
-        index: true
+        ref: "Product"
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: [false, "Morate biti ulogovani da biste dodali proizvod u korpu."]
+        ref: "User"
 
     },
     quantity: {
