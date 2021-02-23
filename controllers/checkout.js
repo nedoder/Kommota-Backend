@@ -13,7 +13,7 @@ var transporter = nodemailer.createTransport({
     }
 });
 
-const checkout = async function(req, res) {
+const checkout = async function(req, res, next) {
 
     var mailOptions = {
         from: 'finalprojectreactnode@gmail.com',
@@ -28,7 +28,7 @@ const checkout = async function(req, res) {
             console.log('Email poslat: ' + info.response);
         }
     });
-
+    next();
 };
 
 module.exports = {
