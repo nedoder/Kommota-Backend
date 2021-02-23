@@ -55,7 +55,7 @@ app.post("/filter", productControllers.filter);
 app.post("/cart", login.verifyToken, shopping.addItemToCart);
 app.get("/cart", login.verifyToken, shopping.getCart);
 app.delete("/cart", login.verifyToken, shopping.emptyCart);
-app.get("/checkout", login.verifyToken, checkout.checkout, shopping.emptyCart);
+app.post("/checkout", login.verifyToken, checkout.checkout, shopping.emptyCart);
 
 
 connect()
