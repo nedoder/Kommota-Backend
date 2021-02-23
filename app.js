@@ -45,7 +45,7 @@ app.get("/admin", login.verifyToken, admin.isAdmin, admin.getData);
 
 app.post("/createproduct", login.verifyToken, productControllers.createProduct);
 app.get('/products', productControllers.findAllProducts);
-app.get('/product/:id', login.verifyToken, productControllers.findAllProducts);
+app.get('/product/:id', login.verifyToken, productControllers.findProductById);
 app.post("/deleteproduct", login.verifyToken, productControllers.deleteProduct);
 app.post("/editproduct", login.verifyToken, productControllers.editProduct);
 app.post("/findproductsbycategory", productControllers.findProductsByCategory);
