@@ -38,7 +38,7 @@ app.delete("/deleteuser", login.verifyToken, userControllers.deleteUser);
 app.patch("/edituser", login.verifyToken, userControllers.editUser);
 app.get("/userproducts", login.verifyToken, userControllers.usersProducts);
 app.get("/userbyid", login.verifyToken, userControllers.findUserById);
-app.get("/admin", login.verifyToken, admin.isAdmin, admin.getData);
+app.get("/admin", login.verifyToken, admin.isAdmin);
 
 
 //product routes - add, delete, findAll, edit, find product by category, filter products based on user choice
@@ -50,6 +50,7 @@ app.post("/deleteproduct", login.verifyToken, productControllers.deleteProduct);
 app.post("/editproduct", login.verifyToken, productControllers.editProduct);
 app.post("/findproductsbycategory", productControllers.findProductsByCategory);
 app.post("/filter", productControllers.filter);
+app.get("/recommended", productControllers.getRecommendedProducts);
 
 //routes for shopping cart - add item to cart, get cart, delete cart
 app.post("/cart", login.verifyToken, shopping.addItemToCart);
