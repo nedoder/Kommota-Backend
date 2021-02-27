@@ -7,7 +7,7 @@ const jwt = new google.auth.JWT(key.client_email, null, key.private_key, scopes)
 function isAdmin(req, res, next) {
     const role = req.body.role;
     if (role === true) {
-        res.json({ user });
+        next();
     } else {
         res.json({ error: "Nemate pristup ovoj stranici." });
     }

@@ -38,7 +38,6 @@ app.delete("/deleteuser", login.verifyToken, userControllers.deleteUser);
 app.patch("/edituser", login.verifyToken, userControllers.editUser);
 app.get("/userproducts", login.verifyToken, userControllers.usersProducts);
 app.get("/userbyid", login.verifyToken, userControllers.findUserById);
-app.get("/admin", login.verifyToken, admin.isAdmin);
 
 
 //product routes - add, delete, findAll, edit, find product by category, filter products based on user choice
