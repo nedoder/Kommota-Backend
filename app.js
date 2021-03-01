@@ -19,7 +19,13 @@ const checkout = require("./controllers/checkout");
 require('dotenv').config();
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
-app.use(cors());
+app.use(cors({
+    'allowedHeaders': ['sessionId', 'Content-Type'],
+    'exposedHeaders': ['sessionId'],
+    'origin': '*',
+    'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    'preflightContinue': false
+}));
 app.use(upload());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
