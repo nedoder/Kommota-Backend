@@ -32,12 +32,12 @@ const connect = () => {
 //user routes - signup, login, findAll and delete
 
 app.post("/signup", register.signupUser);
-app.get('/users', login.verifyToken, admin.isAdmin, userControllers.findAllUsers);
+app.post('/users', login.verifyToken, admin.isAdmin, userControllers.findAllUsers);
 app.post("/login", login.logIn);
 app.delete("/deleteuser", login.verifyToken, userControllers.deleteUser);
 app.patch("/edituser", login.verifyToken, userControllers.editUser);
-app.get("/userproducts", login.verifyToken, userControllers.usersProducts);
-app.get("/userbyid", login.verifyToken, userControllers.findUserById);
+app.post("/userproducts", login.verifyToken, userControllers.usersProducts);
+app.post("/userbyid", login.verifyToken, userControllers.findUserById);
 
 
 //product routes - add, delete, findAll, edit, find product by category, filter products based on user choice
