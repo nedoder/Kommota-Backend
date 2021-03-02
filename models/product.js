@@ -30,8 +30,7 @@ const Product = new mongoose.Schema({
         default: 1
     },
     image: {
-        type: String,
-        required: [true, "Morate unijeti sliku proizvoda"]
+        type: String
     },
     givaway: {
         type: Boolean,
