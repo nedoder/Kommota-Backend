@@ -33,7 +33,7 @@ const connect = () => {
 
 app.post("/signup", register.signupUser);
 app.get('/users', login.verifyToken, admin.isAdmin, userControllers.findAllUsers);
-app.get("/login", login.logIn);
+app.post("/login", login.logIn);
 app.delete("/deleteuser", login.verifyToken, userControllers.deleteUser);
 app.patch("/edituser", login.verifyToken, userControllers.editUser);
 app.get("/userproducts", login.verifyToken, userControllers.usersProducts);
