@@ -44,12 +44,12 @@ app.post("/userbyid", login.verifyToken, userControllers.findUserById);
 
 app.post("/createproduct", login.verifyToken, productControllers.createProduct);
 app.get('/products', productControllers.findAllProducts);
-app.get('/product/:id', login.verifyToken, productControllers.findProductById);
+app.post('/product/:id', login.verifyToken, productControllers.findProductById);
 app.post("/deleteproduct", login.verifyToken, productControllers.deleteProduct);
 app.post("/editproduct", login.verifyToken, productControllers.editProduct);
 app.post("/findproductsbycategory", productControllers.findProductsByCategory);
 app.post("/filter", productControllers.filter);
-app.get("/recommended", productControllers.getRecommendedProducts);
+app.post("/recommended", productControllers.getRecommendedProducts);
 
 //routes for shopping cart - add item to cart, get cart, delete cart
 app.post("/cart", login.verifyToken, shopping.addItemToCart);
