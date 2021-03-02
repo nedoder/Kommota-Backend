@@ -34,9 +34,6 @@ async function createProduct(req, res) {
         res.json({ error: error });
     }
 
-
-    let file = req.files.image;
-
     let fileName = Date.now() + req.files.image.name;
 
     file.mv('./uploads/' + fileName, (err) => {
