@@ -42,7 +42,7 @@ app.post("/signup", register.signupUser);
 app.post('/users', login.verifyToken, admin.isAdmin, userControllers.findAllUsers);
 app.post("/login", login.logIn);
 app.delete("/deleteuser", login.verifyToken, userControllers.deleteUser);
-app.patch("/edituser", login.verifyToken, userControllers.editUser);
+app.post("/edituser", login.verifyToken, userControllers.editUser);
 app.post("/userproducts", login.verifyToken, userControllers.usersProducts);
 app.post("/userbyid", login.verifyToken, userControllers.findUserById);
 
