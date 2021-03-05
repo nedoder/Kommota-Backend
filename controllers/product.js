@@ -288,6 +288,19 @@ async function getRecommendedProducts(req, res) {
     }
 }
 
+async function getGiveawayProducts(req, res) {
+    const products = await Product.find({ giveaway: req.body.giveaway }).lean().exec();
+    try {
+        if (products.length === 0) {
+            throw "Nema proizvoda u bazi. ";
+        } else {
+            res.status(201).json(products);
+        }
+    } catch (error) {
+        res.json({ error: error });
+    }
+}
+
 module.exports = {
     createProduct,
     findAllProducts,
@@ -296,6 +309,7 @@ module.exports = {
     findProductsByCategory,
     filter,
     findProductById,
-    getRecommendedProducts
+    getRecommendedProducts,
+    getGiveawayProducts
 
 }

@@ -57,6 +57,7 @@ app.post("/editproduct", login.verifyToken, productControllers.editProduct);
 app.post("/findproductsbycategory", productControllers.findProductsByCategory);
 app.post("/filter", productControllers.filter);
 app.post("/recommended", productControllers.getRecommendedProducts);
+app.post("/giveaway", productControllers.getGiveawayProducts);
 
 //routes for shopping cart - add item to cart, get cart, delete cart
 app.post("/cart", login.verifyToken, shopping.addItemToCart);
