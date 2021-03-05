@@ -289,7 +289,7 @@ async function getRecommendedProducts(req, res) {
 }
 
 async function getGiveawayProducts(req, res) {
-    const products = await Product.find({ giveaway: req.body.giveaway }).lean().exec();
+    const products = await Product.find({ givaway: req.body.givaway }).lean().exec();
     try {
         if (products.length === 0) {
             throw "Nema proizvoda u bazi. ";
