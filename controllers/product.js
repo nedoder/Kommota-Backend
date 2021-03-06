@@ -3,11 +3,11 @@ const fs = require("fs");
 const path = require("path");
 const readline = require('readline');
 const { google } = require('googleapis');
-
+require('dotenv').config();
 const SCOPES = ['https://www.googleapis.com/auth/drive'];
 const key = require('../auth.json')
 const auth = new google.auth.JWT(key.client_email, null, key.private_key, SCOPES)
-
+const path = require("path");
 
 const drive = google.drive({ version: "v3", auth });
 
@@ -15,7 +15,7 @@ const drive = google.drive({ version: "v3", auth });
 async function createProduct(req, res) {
     let price = req.body.price;
     let name = req.body.name;
-    let image = req.files.image;
+    let file = req.files.image;
     console.log(req.body)
     try {
         if (!price || !name || !image) {
