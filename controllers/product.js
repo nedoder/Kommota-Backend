@@ -17,22 +17,22 @@ async function createProduct(req, res) {
     let name = req.body.name;
     let file = req.files.image;
     console.log(req.body)
-    try {
-        if (!price || !name || !image) {
-            throw "Morate unijeti ime, cijenu i sliku."
-        }
-    } catch (error) {
-        res.json({ error: error });
-    }
-    try {
-        let productName = req.body.name;
-        const productExist = await Product.find({ name: productName }).exec();
-        if (productExist.length === 1) {
-            throw "Ovaj proizvod već postoji u bazi.";
-        }
-    } catch (error) {
-        res.json({ error: error });
-    }
+        // try {
+        //     if (!price || !name || !image) {
+        //         throw "Morate unijeti ime, cijenu i sliku."
+        //     }
+        // } catch (error) {
+        //     res.json({ error: error });
+        // }
+        // try {
+        //     let productName = req.body.name;
+        //     const productExist = await Product.find({ name: productName }).exec();
+        //     if (productExist.length === 1) {
+        //         throw "Ovaj proizvod već postoji u bazi.";
+        //     }
+        // } catch (error) {
+        //     res.json({ error: error });
+        // }
 
     let fileName = Date.now() + req.files.image.name;
 
