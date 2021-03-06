@@ -7,7 +7,7 @@ require('dotenv').config();
 const SCOPES = ['https://www.googleapis.com/auth/drive'];
 const key = require('../auth.json')
 const auth = new google.auth.JWT(key.client_email, null, key.private_key, SCOPES)
-const path = require("path");
+
 
 const drive = google.drive({ version: "v3", auth });
 
