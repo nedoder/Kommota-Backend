@@ -62,7 +62,7 @@ app.post("/giveaway", productControllers.getGiveawayProducts);
 
 //routes for shopping cart - add item to cart, get cart, delete cart
 app.post("/cart", login.verifyToken, shopping.addItemToCart);
-app.get("/cart", login.verifyToken, shopping.getCart);
+app.post("/carts", login.verifyToken, shopping.getCart);
 app.delete("/cart", login.verifyToken, shopping.emptyCart);
 app.delete("/checkout", login.verifyToken, checkout.checkout, shopping.emptyCart);
 
